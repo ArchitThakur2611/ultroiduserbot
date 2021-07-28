@@ -1,0 +1,20 @@
+#Creator ~ @Archit_26
+from telethon.errors.rpcerrorlist import YouBlockedUserError
+from userbot.utils import admin_cmd
+from . import *
+
+bot='@TechnoRo_bot'
+
+@ultroid_cmd(pattern="covindia ?(.*)")
+async def pk(e):
+      pok=e.pattern_match.group(1)
+      sts="/covindia "
+      pk=sts+pok
+      if e.fwd_from:
+        return
+      async with borg.conversation(bot) as conv:
+                await conv.send_message(pk)
+                result=await conv.get_response()
+                op=result.text
+                await e.delete()
+                final=await borg.send_message(e.chat_id,op)
