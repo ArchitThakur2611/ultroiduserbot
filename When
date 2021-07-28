@@ -1,0 +1,39 @@
+# when plugin to check when the replied message was posted
+# credits ~ @Archit_26
+"""
+✘ Commands Available
+
+• {i}when <reply message>
+     Shows the original date and time of the replied message same as /when
+"""
+import pytz
+from datetime import datetime
+from pytz import timezone
+from userbot.utils import admin_cmd
+from . import *
+@ultroid_cmd(pattern="when")
+async def _(event):
+    reply = await event.get_reply_message()
+    if reply:
+        try:
+            result = reply.fwd_from.date
+        except Exception:
+            result = reply.date
+    else:
+        result = event.date
+    format="%d-%m-%Y %H:%M:%S %Z%z"
+    op=result.astimezone(timezone('Asia/Kolkata'))
+    go= datetime.now(timezone('Asia/Kolkata'))
+    diff=go-op
+    diff=str(diff)
+    args=diff.split(':')
+    hrs=args[0]
+    min=args[1]
+    second=args[2]
+    sec=second.split('.')
+    second=sec[0]
+    result=op.strftime(format)
+    await edit_or_reply(
+        event, str(f"""This message was posted on : {result} which is {hrs} hours {min} minutes {second} seconds ago   """))
+
+HELP.update({f"{__name__.split('.')[1]}": f"{__doc__.format(i=HNDLR)}"})
